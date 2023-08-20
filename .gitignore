@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+*$py.class
+TOKEN
+TOKEN.testing
+discord.log
+data.pickle
+testing.pickle
