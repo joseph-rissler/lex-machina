@@ -58,7 +58,7 @@ def ends_with_new_score(message):
     regex = r'((?<=score)|(?=.*?\d+.*?points))(.*?(?P<new_score>\d+))' #This one was fun.
     if match := re.search(regex,message.content.lower()):
         current_score = data.players[message.author].points
-        if int(match[new_score]) == current_score + 1:
+        if int(match['new_score']) == current_score + 1:
             return True
 
 

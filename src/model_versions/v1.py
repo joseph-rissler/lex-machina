@@ -74,7 +74,7 @@ class Model:
     def prepare(cls):
         try:
             return cls.load()
-        except:
+        except FileNotFoundError:
             return cls()
 
     @staticmethod
@@ -89,7 +89,7 @@ class Model:
 
 data = Model.prepare()
 
-def save_and_exit():
+def save_and_exit(signum, frame):
     Model.save()
     sys.exit()
 
