@@ -2,7 +2,7 @@ import re
 import discord
 from data import data
 
-import config
+from config import config
 
 async def on_message(message):
     if message_can_score(message):
@@ -27,7 +27,8 @@ def check_proposal(proposal):
 def message_can_score(message):
     return check_message_date(message) \
        and doesnt_start_with_vowel(message.content) \
-       and contains_acronym(message.content)
+       and contains_acronym(message.content) \
+       and ends_with_new_score(message)
 
 def check_message_date(message):
     return data.players[message.author].last_score_date != message.created_at.date()
@@ -51,6 +52,13 @@ def contains_acronym(text):
     text = text.casefold().replace('.',':').replace('/', ':')
     for acronym in acronyms:
         if acronym.search(text):
+            return True
+
+def ends_with_new_score(message):
+    regex = r'((?<=score)|(?=.*?\d+.*?points))(.*?(?P<new_score>\d+))' #This one was fun.
+    if match := re.search(regex,message.content.lower()):
+        current_score = data.players[message.author].points
+        if int(match[new_score]) == current_score + 1:
             return True
 
 

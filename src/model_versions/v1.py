@@ -1,10 +1,10 @@
 import pickle 
+import signal
 from dataclasses import dataclass, field
 from datetime import date
 from typing import Optional, ClassVar
 from collections import UserDict
-
-import config
+from config import config
 
 class AutoDict(UserDict):
     # Default creation of values based on key and allows discord.py models
@@ -88,3 +88,10 @@ class Model:
             return pickle.load(f)
 
 data = Model.prepare()
+
+def save_and_exit():
+    Model.save()
+    sys.exit()
+
+signal.signal(signal.SIGINT, save_and_exit)
+signal.signal(signal.SIGTERM, save_and_exit)

@@ -3,13 +3,13 @@ import asyncio
 import math
 
 from typing import Optional
+from datetime import datetime
 
 import discord
 
-import config
 import rules
+from config import config
 from data import data
-
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -92,9 +92,10 @@ async def points(interaction: discord.Interaction, member: Optional[discord.Memb
             msg = f'{member.mention} has {points} points.'
     await interaction.response.send_message(msg, ephemeral=True)
 
-#if TESTING:
-#    import code
-#    code.InteractiveConsole(locals=globals()).interact()
-#else:
-client.run(config.token)
+@client.command
+async def utc(interaction:discord.Interaction):
+    await interaction.response.send_message(interaction.created_at.strftime('%A, %B %d @ %H:%M'),ephemeral=True)
+
+def run():
+    client.run(config.token)
 
